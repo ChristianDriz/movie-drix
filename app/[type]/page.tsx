@@ -5,8 +5,8 @@ import SearchPage from "../components/layout/SearchPage";
 import MediaPage from "../components/layout/MediaPage";
 
 type Props = {
-    params: { type: string };
-    searchParams: { query: string, page?: number };
+    params: Promise<{ type: string }>;
+    searchParams: Promise<{ query: string, page?: number }>;
 }
 
 export default async function Page({ params, searchParams }: Props) {

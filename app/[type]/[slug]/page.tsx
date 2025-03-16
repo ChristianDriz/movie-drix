@@ -3,12 +3,8 @@ import MediaDetailsPage from "@/app/components/layout/MediaDetailsPage";
 import { fetchMediaList  } from "@/lib/tmdb";
 
 type Props = {
-    params: 
-        {
-            type: "movie" | "tv";
-            slug: string; // category or id
-        };
-    searchParams: { page?: number };
+    params: Promise<{ type: string, slug: string }>;
+    searchParams: Promise<{ page: number }>;
 }
 
 export default async function page({ params, searchParams } : Props ) {
