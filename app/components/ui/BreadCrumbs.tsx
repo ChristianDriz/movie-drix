@@ -11,7 +11,7 @@ export default function BreadCrumbs ()  {
     const activePath = pathNames[pathNames.length - 1].split("-").join(" ");
 
     return (
-        <div className="font-inter">
+        <nav>
             <ul className="ml-0 flex gap-1 text-sm/[16px] flex-wrap items-center capitalize">
                 <li className="transition-all ">
                     <Link href="/" className="text-[#acacac] hover:underline">
@@ -45,7 +45,7 @@ export default function BreadCrumbs ()  {
                 );
                 })}
             </ul>
-        </div>
+        </nav>
     );
 };
 

@@ -47,6 +47,10 @@ body {
     font-family: Helvetica, sans-serif;
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
 /* From Uiverse.io by Z4drus */ 
 .container {
     --uib-size: 100px;

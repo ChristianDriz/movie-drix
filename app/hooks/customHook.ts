@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { searchMedia, Result } from "@/lib/tmdb";
 import { useRouter } from "next/navigation";
 
@@ -20,7 +20,7 @@ export function useSearch() {
 
     // Function to handle enter key press
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") {
+        if (e.key === "Enter" && inputValue !== "") {
             router.push(`/search?query=${encodeURIComponent(inputValue)}`);
             handleReset();
         }   
@@ -111,4 +111,69 @@ export function useNavbar() {
     };
 
     return { isMenuOpen, handleToggle };
+}
+
+// Hook for custom scroll behavior
+export function useScroll(mediaList: Result[]) {
+  
+    const containerRef = useRef<HTMLUListElement>(null);
+    const cardRef = useRef<HTMLLIElement | null>(null);
+
+    const [showPrev, setShowPrev] = useState<boolean>(false);
+    const [showNext, setShowNext] = useState<boolean>(true);
+
+    const [cardWidth, setCardWidth] = useState<number>(0);
+    const [cardsPerScroll, setCardsPerScroll] = useState<number>(0);
+
+    // Updates the number of cards to show based on screen size and sets card width
+    const updateWidth = () => {
+        const customBreakPoints = [
+            // Mobile breakpoints
+            { max: 340, cards: 2 },
+            { max: 447, cards: 3 },
+            // Medium breakpoints
+            { max: 543, cards: 3 },
+            { max: 575, cards: 4 },
+            // Extra large breakpoints
+            { max: 740, cards: 4 },
+            { max: 895, cards: 5 },        
+            // 4xl breakpoints
+            { max: 995, cards: 5 },
+            { max: 1152, cards: 6 },
+        ]
+     
+        const screenSize = window.innerWidth;
+        // Find matching breakpoint or default to 7 cards per scroll
+        const match = customBreakPoints.find((breakpoints) => screenSize <= breakpoints.max);
+        setCardsPerScroll(match ? match.cards : 7);
+
+        if (cardRef.current) {
+            setCardWidth(cardRef.current.clientWidth);
+        }
+    };
+
+    // Handles scroll events to show/hide navigation buttons
+    const onScroll = () => {
+        if (!containerRef.current) return;
+        const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
+        setShowPrev(scrollLeft > 0); // Show prev button if not at start
+        setShowNext(scrollLeft < scrollWidth - clientWidth - 1); // Show next button if not at end (with 1px buffer)
+    };
+
+    // Effect to handle initial setup and window resize
+    useEffect(() => {
+        updateWidth(); 
+        window.addEventListener("resize", updateWidth);
+        return () => window.removeEventListener("resize", updateWidth);
+    }, [mediaList]);
+
+    const handlePrev = () => {
+        containerRef.current?.scrollBy({ left: -cardsPerScroll * cardWidth });
+    }
+
+    const handleNext = () => {
+        containerRef.current?.scrollBy({ left: cardsPerScroll * cardWidth });
+    }
+
+    return { containerRef, cardRef, showPrev, showNext, onScroll, handlePrev, handleNext }
 }

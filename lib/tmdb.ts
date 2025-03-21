@@ -34,29 +34,15 @@ type MediaDetails = {
     poster_path: string;
     genres: { id: number; name: string }[];
     tagline?: string;
+    vote_average: number;
+    status: string;
+    production_companies: { name: string }[];
 }
 
-
-export const getTrendingMovies = async () => {
-  
-    try {
-        const response = await fetch(`${BASE_URL}trending/movie/day?language=en-US`, options);
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-
-        const data = await response.json();
-        return data.results;
-    
-    } catch (error) {
-        console.error("Trending Movies Error:", error);
-        return []; 
-    }
-
-}
-
-export const getTrendingTV = async () => {
+export const getTrendingMedia = async (type: string, duration: string) => {
 
     try {
-        const response = await fetch(`${BASE_URL}trending/tv/day?language=en-US`, options);
+        const response = await fetch(`${BASE_URL}trending/${type}/${duration}?language=en-US`, options);
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
         const data = await response.json();
@@ -67,6 +53,7 @@ export const getTrendingTV = async () => {
         return []; 
     }
 }
+
 
 export async function searchMedia (query: string): Promise<{ results: Result[], pages: number }> {
 
@@ -142,85 +129,21 @@ export async function fetchMediaList (type: string, category : string): Promise<
     }
 }
 
-// async function getMovies (category : string): Promise<{ results: Result[], pages: number }> {
-
-//     try {
-//         let page = 1;
-//         let filteredResults: Result[] = [];
-        
-//         while (page <= 10) {
-//             const response = await fetch(`${BASE_URL}/movie/${category}?language=en-US&page=${page}`, options);
-//             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-    
-//             const data = await response.json();
-//             filteredResults = [...filteredResults, ...data.results];
-//             page++
-//         }
-
-//         console.log(filteredResults);
-//         return { results: filteredResults, pages: 10 };
-
-//     } catch (error) {
-//         console.error("Error:", error); 
-//         return { results: [], pages: 0 }; 
-//     }
-// }
-
 export const getMediaDetails = async (type: string, id: string) : Promise<MediaDetails> => {
 
     try {
         const response = await fetch(`${BASE_URL}/${type}/${id}?language=en-US`, options);
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        // if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
         const data = await response.json();
         return data;
 
     } catch (error) {
         console.error("Item Details Error:", error); 
-        return { overview: "", backdrop_path: "", poster_path: "", genres: [] }
+        return { overview: "", backdrop_path: "", poster_path: "", genres: [], vote_average: 0, status: "", production_companies: [] }
     }
     
 }
-
-// const getMovies2 = async (category : string) => {
-
-//     try {
-//         const response = await fetch(`${BASE_URL}/movie/${category}?language=en-US`, options);
-//         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-
-//         const data = await response.json();
-//         return data;
-
-//     } catch (error) {
-//         console.error("Error:", error); 
-//         return [];
-//     }
-// }
-
-// export const getNowPlayingMovies = () => getMovies("now_playing");
-// export const getPopularMovies = () => getMovies("popular");
-// export const getTopRatedMovies = () => getMovies("top_rated");
-// export const getUpcomingMovies = () => getMovies("upcoming");
-
-// const getTVLists = async (category : string) => {
-
-//     try {
-//         const response = await fetch(`${BASE_URL}/tv/${category}?language=en-US`, options);
-//         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-
-//         const data = await response.json();
-//         return data;
-
-//     } catch (error) {
-//         console.error("Error:", error); 
-//         return [];
-//     }
-// }
-
-// export const getAiringToday = () => getTVLists("airing_today");
-// export const getOnTheAir = () => getTVLists("on_the_air");
-// export const getPopularTV = () => getTVLists("popular");
-// export const getTopRatedTV = () => getTVLists("top_rated");
 
 
 // Function to filter the fetched data for movie and tv onyl and if some of them has no image, or no title

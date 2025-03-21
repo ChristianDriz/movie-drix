@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import { searchMedia } from "@/lib/tmdb";
 
-import SearchPage from "../components/layout/SearchPage";
-import MediaPage from "../components/layout/MediaPage";
+import MediaResultPage from "../components/layout/MediaResultsPage";
+import MediaCategoryList from "../components/layout/MediaCategoryList";
 
 type Props = {
     params: Promise<{ type: string }>;
@@ -21,12 +21,12 @@ export default async function Page({ params, searchParams }: Props) {
         const startIndex = (currentPage - 1) * 21;
         const endIndex = startIndex + 21;
         const paginatedResults = results.slice(startIndex, endIndex);
-
-        return <SearchPage results={paginatedResults} totalPages={pages} query={query} currentPage={currentPage}/>
+        
+        return <MediaResultPage results={paginatedResults} totalPages={pages} query={query} currentPage={currentPage} type={type} />
     }
 
     if (type === "movie" || type === "tv") {
-        return <MediaPage type={type}/>         
+        return <MediaCategoryList type={type}/>         
     }
 
     return notFound();

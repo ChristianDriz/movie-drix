@@ -35,7 +35,7 @@ export default function RootLayout({
                 <header className="sticky top-0 z-20 ">
                     <Navbar/>
                 </header>
-                <main className="flex-1 flex">
+                <main className="flex-1 flex flex-col ">
                     {children}
                 </main>
             </body>
