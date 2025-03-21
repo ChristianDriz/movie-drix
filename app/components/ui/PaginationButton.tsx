@@ -11,7 +11,7 @@ type Props = {
 export default function Pagination({ totalPages, handlePageClick, currentPage } : Props ) {
 
     return (
-        <div className="flex flex-col items-center xl:items-end gap-4 my-10 ">
+        <nav className="flex flex-col items-center xl:items-end gap-4 my-10 ">
             <ReactPaginate
                 previousLabel="Prev"
                 nextLabel="Next"
@@ -29,6 +29,6 @@ export default function Pagination({ totalPages, handlePageClick, currentPage } 
                 previousClassName={currentPage == 1 ? "opacity-50 " : "cursor-pointer"}
                 nextClassName={currentPage == totalPages ? "opacity-50 " : "cursor-pointer"}
             />
-        </div>
+        </nav>
     )
 }

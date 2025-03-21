@@ -1,11 +1,13 @@
 
+import HomeCarouselSection from "./components/layout/HomeCarouselSection";
 
-export default async function Home() {
+export default function Home() {
 
     return (
-        <div className="flex-1 max-w-7xl mx-auto w-full flex items-center justify-center ">
-            This is homepage
-        </div>
+        <>
+            <HomeCarouselSection type="movie" title="Trending Movies" />
+            <HomeCarouselSection type="tv" title="Trending TV Shows" />
+        </>
     );
   
 }

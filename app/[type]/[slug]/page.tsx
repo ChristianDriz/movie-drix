@@ -1,4 +1,4 @@
-import CategoryPage from "@/app/components/layout/CategoryPage";
+import MediaResultPage from "@/app/components/layout/MediaResultsPage";
 import MediaDetailsPage from "@/app/components/layout/MediaDetailsPage";
 import { fetchMediaList  } from "@/lib/tmdb";
 
@@ -24,7 +24,7 @@ export default async function page({ params, searchParams } : Props ) {
         const endIndex = startIndex + 21;
         const paginatedResults = results.slice(startIndex, endIndex);
 
-        return <CategoryPage results={paginatedResults} totalPages={pages} currentPage={currentPage} category={slug} type={type}/>
+        return <MediaResultPage results={paginatedResults} totalPages={pages} currentPage={currentPage} category={slug} type={type}/>
     }
     
 }
