@@ -5,9 +5,10 @@ type Props = {
     handleToggle: () => void;
     isMenuOpen: boolean;
     links: {name: string, href: string}[];
+    pathname: string;
 }
 
-export default function MobileNav({ handleToggle, isMenuOpen, links }:  Props) {
+export default function MobileNav({ handleToggle, isMenuOpen, links, pathname }:  Props) {
     return (
         <div className="flex items-center justify-end xl:hidden">
             <button onClick={handleToggle} className="cursor-pointer ">
@@ -25,7 +26,7 @@ export default function MobileNav({ handleToggle, isMenuOpen, links }:  Props) {
                 <ul className="my-4">
                     {links.map((link, index) => (
                     <li key={index}className="rounded-sm cursor-pointer hover:bg-black ">
-                        <Link href={link.href} onClick={handleToggle} className="block p-3 w-full ">{link.name}</Link>
+                        <Link href={link.href} onClick={handleToggle} className={`block p-3 w-full ${pathname === link.href ? 'text-blue' : 'text-white'}`}>{link.name}</Link>
                     </li>
                     ))}        
                 </ul>

@@ -1,5 +1,3 @@
-
-
 export function formatDate(dateString: string): string {
     if (!dateString) return ""; // Handle empty values
 

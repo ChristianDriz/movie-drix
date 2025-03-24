@@ -1,14 +1,15 @@
 import Link from "next/link";
-import MediaGrid from "../ui/MediaGrid";
+import MediaGrid from "../common/MediaGrid";
 import { fetchMediaList } from "@/lib/tmdb"
 import { FiChevronRight } from "react-icons/fi";
+import { MOVIE_CATEGORIES, TV_CATEGORIES } from "@/app/constants/constants";
 
 type Props = {
     type: string;
 }
 
 export default async function MediaCategoryList({ type } : Props) {
-    const categories = type === "movie" ? ["now_playing", "popular", "top_rated", "upcoming"] : ["airing_today", "on_the_air", "popular", "top_rated"];
+    const categories = type === "movie" ? MOVIE_CATEGORIES : TV_CATEGORIES;
 
     try {
         const fetchedData = await Promise.all(
