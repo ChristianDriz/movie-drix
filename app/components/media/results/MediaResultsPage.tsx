@@ -3,9 +3,9 @@
 import { Result } from "@/lib/tmdb"
 import { useRouter } from "next/navigation";
 
-import MediaGrid from "../ui/MediaGrid";
-import Pagination from "../ui/PaginationButton";
-import BreadCrumbs from "../ui/BreadCrumbs";
+import MediaGrid from "../common/MediaGrid";
+import Pagination from "../../ui/PaginationButton";
+import BreadCrumbs from "../../ui/BreadCrumbs";
 
 type Props = {
     results: Result[]; 
@@ -27,7 +27,7 @@ export default function MediaResultPage({ results, query, totalPages, category, 
     return (
         <section className="px-2 py-4 md:px-4 max-w-7xl mx-auto w-full flex-1 flex flex-col ">          
             <header className={`flex ${type !== 'search' ? "justify-center items-center" : ""} `}>
-                <h2 className="font-bold text-xl capitalize">
+                <h2 className="font-bold text-xl capitalize mb-3">
                     {type === 'search' ? <>Search Results for: <span className="italic text-blue normal-case">{query}</span></> : category?.replace(/_/g, " ")}
                 </h2>  
             </header> 
@@ -43,3 +43,4 @@ export default function MediaResultPage({ results, query, totalPages, category, 
         </section>
     )
 }
+

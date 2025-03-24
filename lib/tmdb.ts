@@ -1,6 +1,6 @@
-
-export const BASE_URL = "https://api.themoviedb.org/3/";
+export const BASE_URL = "https://api.themoviedb.org/3/"
 export const poster_url = "https://image.tmdb.org/t/p/w500/"
+export const profile_url = "https://media.themoviedb.org/t/p/w138_and_h175_face/"
 export const background_url = "https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces/"
 
 const options = {
@@ -24,7 +24,7 @@ export type Result = {
     release_date?: string;
 }
 
-type MediaDetails = {
+export type MediaDetails = {
     title?: string;
     name?: string;
     overview: string;
@@ -37,6 +37,13 @@ type MediaDetails = {
     vote_average: number;
     status: string;
     production_companies: { name: string }[];
+}
+
+export type MediaCasts = {
+    gender: number;
+    name: string;
+    profile_path: string;
+    character: string;
 }
 
 export const getTrendingMedia = async (type: string, duration: string) => {
@@ -129,18 +136,37 @@ export async function fetchMediaList (type: string, category : string): Promise<
     }
 }
 
-export const getMediaDetails = async (type: string, id: string) : Promise<MediaDetails> => {
+export const getMediaDetails = async (type: string, id: string) : Promise<MediaDetails | null> => {
 
     try {
         const response = await fetch(`${BASE_URL}/${type}/${id}?language=en-US`, options);
-        // if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        
+        if (response.status === 404) return null;
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
         const data = await response.json();
         return data;
 
     } catch (error) {
         console.error("Item Details Error:", error); 
-        return { overview: "", backdrop_path: "", poster_path: "", genres: [], vote_average: 0, status: "", production_companies: [] }
+        return null;
+    }
+    
+}
+
+export const getMediaCasts = async (type: string, id: string) : Promise<MediaCasts[]> => {
+
+    try {
+        const response = await fetch(`${BASE_URL}/${type}/${id}/credits?language=en-US`, options);
+        if (response.status === 404) return [];
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+        const data = await response.json();
+        return data.cast;
+
+    } catch (error) {
+        console.error("Item Details Error:", error); 
+        return [];
     }
     
 }
