@@ -40,10 +40,10 @@ export default function SearchItem(
                     />
                 </div>
                 <div className="flex-1">
-                    <h2 className="text-sm 2xl:text-base text-white">
+                    <h2 className="text-sm 2xl:text-base text-white/90">
                         {title}
                     </h2>
-                    <div className="flex space-x-1 mt-1 text-xs 2xl:text-sm text-white/60">
+                    <div className="flex space-x-1 mt-1 text-xs 2xl:text-sm text-white/60 font-light">
                         <span>{formatDate(release_date ?? "")}</span>
                         <span>•</span>
                         <span className="capitalize">{media_type}</span>

@@ -49,7 +49,12 @@ export type MediaCasts = {
 export const getTrendingMedia = async (type: string, duration: string) => {
 
     try {
-        const response = await fetch(`${BASE_URL}trending/${type}/${duration}?language=en-US`, options);
+        const response = await fetch(`${BASE_URL}trending/${type}/${duration}?language=en-US`, 
+            { 
+                ...options, 
+                next: { revalidate: 60 }, // revalidate every 60 seconds
+            }
+        );
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
         const data = await response.json();
@@ -67,14 +72,12 @@ export async function searchMedia (query: string): Promise<{ results: Result[], 
     try {
         let page = 1;
         let filteredList: Result[] = [];
-        let totalResults  = 0;
+        // let totalResults  = 0;
         let maxFetchPages  = 10; // Default max fetch limit is 10
         let totalFilteredPages = 0;
 
         while (page <= maxFetchPages ) {
-            const response = await fetch(   
-                `${BASE_URL}search/multi?query=${query}&include_adult=false&language=en-US&page=${page}`, options
-            );
+            const response = await fetch(`${BASE_URL}search/multi?query=${query}&include_adult=false&language=en-US&page=${page}`, options);
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
             const data = await response.json();
@@ -82,7 +85,7 @@ export async function searchMedia (query: string): Promise<{ results: Result[], 
             const validResults = data.results.filter((item: Result) => filterValidMedia(item, query, true));
 
             if (page === 1) { 
-                totalResults = data.total_results; // Assign total results only once
+                // totalResults = data.total_results; // Assign total results only once
                 maxFetchPages  = Math.min(10, data.total_pages); // Limit fetches to available pages
             }
             
@@ -91,7 +94,7 @@ export async function searchMedia (query: string): Promise<{ results: Result[], 
             page++
         }
         
-        console.log(`Total filtered results: ${filteredList.length} out of ${Math.min(totalResults, 200)}`);  
+        // console.log(`Total filtered results: ${filteredList.length} out of ${Math.min(totalResults, 200)}`);  
         return { results: filteredList, pages: totalFilteredPages };
             
     } catch (error) {
@@ -105,12 +108,17 @@ export async function fetchMediaList (type: string, category : string): Promise<
     try {
         let page = 1;
         let filteredList: Result[] = [];
-        let totalResults  = 0;
+        // let totalResults  = 0;
         let maxFetchPages  = 10; // Default max fetch limit is 10
         let totalFilteredPages = 0;
 
         while (page <= maxFetchPages ) {
-            const response = await fetch(`${BASE_URL}/${type}/${category}?language=en-US&page=${page}`, options);
+            const response = await fetch(`${BASE_URL}/${type}/${category}?language=en-US&page=${page}`, 
+                { 
+                ...options, 
+                next: { revalidate: 600 }, // revalidate every 10 minutes 
+            }
+        );
 
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
@@ -119,7 +127,7 @@ export async function fetchMediaList (type: string, category : string): Promise<
             const validResults = data.results.filter((item: Result) => filterValidMedia(item));
 
             if (page === 1) { 
-                totalResults = data.total_results; // Assign total results only once
+                // totalResults = data.total_results; // Assign total results only once
                 maxFetchPages  = Math.min(10, data.total_pages); // Limit fetches to available pages
             }
             
@@ -127,7 +135,7 @@ export async function fetchMediaList (type: string, category : string): Promise<
             totalFilteredPages = Math.ceil(filteredList.length / 21); // 21 results per page
             page++
         }
-        console.log(`Total filtered results: ${filteredList.length} out of ${Math.min(totalResults, 200)}`);  
+        // console.log(`Total filtered results: ${filteredList.length} out of ${Math.min(totalResults, 200)}`);  
         return { results: filteredList, pages: totalFilteredPages };
             
     } catch (error) {
@@ -139,7 +147,11 @@ export async function fetchMediaList (type: string, category : string): Promise<
 export const getMediaDetails = async (type: string, id: string) : Promise<MediaDetails | null> => {
 
     try {
-        const response = await fetch(`${BASE_URL}/${type}/${id}?language=en-US`, options);
+        const response = await fetch(`${BASE_URL}/${type}/${id}?language=en-US`, { 
+            ...options, 
+            next: { revalidate: 3600 }, // revalidate every 1 hour
+        }
+    );
         
         if (response.status === 404) return null;
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -157,7 +169,11 @@ export const getMediaDetails = async (type: string, id: string) : Promise<MediaD
 export const getMediaCasts = async (type: string, id: string) : Promise<MediaCasts[]> => {
 
     try {
-        const response = await fetch(`${BASE_URL}/${type}/${id}/credits?language=en-US`, options);
+        const response = await fetch(`${BASE_URL}/${type}/${id}/credits?language=en-US`, { 
+            ...options, 
+            next: { revalidate: 3600 }, // revalidate every 1 hour
+        }
+    );
         if (response.status === 404) return [];
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 

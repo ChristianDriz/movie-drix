@@ -29,11 +29,11 @@ export default function Navbar() {
 
     return (
         <nav className="bg-midnight shadow-lg">
-            <div className="max-w-7xl mx-auto px-2 py-3 flex flex-wrap justify-between items-center gap-2 md:px-4 xl:gap-4">
-                <Link href={'/'} className="font-bold text-blue">
-                    MovieDrix
+            <div className="max-w-7xl mx-auto px-2 py-3 flex flex-wrap justify-between items-center gap-2 md:px-4 2xl:gap-4">
+                <Link href={'/'} className="font-semibold">
+                    Movie<span className="text-blue">Drix</span>
                 </Link>
-                <div className="xl:order-3">
+                <div className="2xl:order-3">
                     <MobileNav links={NAV_LINKS} pathname={pathname} handleToggle={handleToggle} isMenuOpen={isMenuOpen} />
                     <DesktopNav links={NAV_LINKS} pathname={pathname}/>
                 </div>
