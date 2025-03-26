@@ -9,7 +9,7 @@ export default function MediaDetailsCast({ castList } : Props ) {
 
     return (
         <div className="mt-3 w-full">
-            <h3 className="font-bold text-xl">Casts</h3> 
+            <h3 className="font-medium text-xl">Casts</h3> 
             <ul className='mt-2 flex gap-2 overflow-x-scroll scroll-smooth snap-x scrollbar-thin'>
                 {castList.map((cast, index) => (
                     <li key={index} className="snap-start w-22 xl:w-28 ">
@@ -24,8 +24,8 @@ export default function MediaDetailsCast({ castList } : Props ) {
                             <div className="pointer-events-none absolute inset-0 top-[40%] bg-gradient-to-t from-black from-0% via-black/0 via-40% to-transparent to-40%"></div>
                         </div>
                         <div className="py-2">
-                            <h4 className="text-xs font-bold">{cast.name}</h4>
-                            <p className="text-xs text-white/80">{cast.character}</p>
+                            <h4 className="text-xs ">{cast.name}</h4>
+                            <p className="text-xs text-white/80 font-light">{cast.character}</p>
                         </div>
                     </li>
                 ))}

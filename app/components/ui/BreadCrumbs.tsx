@@ -12,7 +12,7 @@ export default function BreadCrumbs ()  {
 
     return (
         <nav>
-            <ul className="ml-0 flex gap-1 text-sm/[16px] flex-wrap items-center capitalize">
+            <ul className="ml-0 flex gap-1 text-sm/[16px] flex-wrap items-center capitalize font-light">
                 <li className="transition-all ">
                     <Link href="/" className="text-[#acacac] hover:underline">
                         Home

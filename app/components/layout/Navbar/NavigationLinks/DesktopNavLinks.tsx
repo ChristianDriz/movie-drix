@@ -8,7 +8,7 @@ type Props = {
 export default function DesktopNav({ links, pathname } : Props ) {
 
     return (
-        <ul className="hidden xl:flex ">
+        <ul className="hidden 2xl:flex ">
             {links.map((link, index) => (
             <li key={index}>
                 <Link 

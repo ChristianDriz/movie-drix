@@ -1,11 +1,13 @@
 import { notFound } from "next/navigation";
 import { searchMedia } from "@/lib/tmdb";
 import { Suspense } from "react";
+import { Metadata } from "next";
+import { MOVIE_CATEGORIES, TV_CATEGORIES } from "../constants/constants";
 
 import MediaResultPage from "../components/media/results/MediaResultsPage";
 import MediaCategoryList from "../components/media/category/MediaCategoryList";
 import MediaSkeleton from "../components/media/common/MediaSkeleton";
-import { Metadata } from "next";
+
 
 type Props = {
     params: Promise<{ type: string }>;
@@ -31,10 +33,15 @@ export default async function Page({ params, searchParams }: Props) {
     }
 
     if (type === "movie" || type === "tv") {
+        const categories = type === "movie" ? MOVIE_CATEGORIES : TV_CATEGORIES;
         return (
-            <Suspense fallback={<MediaSkeleton />}>
-                <MediaCategoryList type={type} />
-            </Suspense>
+            <>
+            {categories.map((category) => (
+                <Suspense key={category} fallback={<MediaSkeleton />}>
+                    <MediaCategoryList type={type} category={category}/>
+                </Suspense>
+            ))}
+            </>
         )        
     }
 

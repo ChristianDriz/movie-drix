@@ -10,7 +10,7 @@ type Props = {
 
 export default function MobileNav({ handleToggle, isMenuOpen, links, pathname }:  Props) {
     return (
-        <div className="flex items-center justify-end xl:hidden">
+        <div className="flex items-center justify-end 2xl:hidden">
             <button onClick={handleToggle} className="cursor-pointer ">
                 <FiMenu className="w-6 h-6"/>
             </button>
