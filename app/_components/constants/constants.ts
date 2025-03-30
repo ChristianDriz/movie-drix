@@ -12,6 +12,17 @@ export const NAV_LINKS = [
     }
 ]
 
+export const MEDIA_TYPES = [
+    {
+        name: 'movie',
+        categories: [ "now_playing", "popular", "top_rated", "upcoming" ]
+    },
+    {
+        name: 'tv',
+        categories: [ "airing_today", "on_the_air", "popular", "top_rated" ]
+    }
+]
+
 export const HOME_SECTIONS = [
     { 
         type: "movie", 
@@ -28,16 +39,3 @@ export const TIME_RANGES = {
     WEEK: "week"
 }
 
-export const MOVIE_CATEGORIES = [
-    "now_playing", 
-    "popular", 
-    "top_rated", 
-    "upcoming"
-]
-
-export const TV_CATEGORIES =  [ 
-    "airing_today", 
-    "on_the_air", 
-    "popular", 
-    "top_rated"
-]

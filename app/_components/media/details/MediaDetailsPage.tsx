@@ -8,7 +8,6 @@ type Props = {
     id: string;
 }
 
-
 export default async function MediaDetailsPage({ type, id } : Props ) {
     
     const [details, casts] = await Promise.all([
@@ -78,7 +77,7 @@ export default async function MediaDetailsPage({ type, id } : Props ) {
                     <div id="genre">                             
                         <h4 className="font-medium">Genre</h4>
                         <ul className="flex flex-wrap text-white/70 text-sm font-light">
-                            {details.genres.map((genre, idx) => (
+                            {details.genres.map((genre: { id: number; name: string }, idx: number) => (
                                 <li key={idx} >
                                     {genre.name}
                                     {idx !== details.genres.length - 1 ? ',\u00A0' : ''}
@@ -99,7 +98,7 @@ export default async function MediaDetailsPage({ type, id } : Props ) {
                     <div id="production">
                         <h4 className="font-medium">Production</h4>
                         <ul className="flex flex-wrap text-white/70 text-sm font-light">
-                            {details.production_companies.map((production, idx) => (
+                            {details.production_companies.map((production: { name: string } , idx : number) => (
                                 <li key={idx} >
                                     {production.name}
                                     {idx !== details.production_companies.length - 1 ? ',\u00A0' : ''}

@@ -1,5 +1,3 @@
-
-
 export default function MediaSkeleton({ }) {
     return (
         <section className="px-2 py-4 md:px-4 max-w-7xl mx-auto w-full">   

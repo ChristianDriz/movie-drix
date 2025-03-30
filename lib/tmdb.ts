@@ -1,4 +1,4 @@
-export const BASE_URL = "https://api.themoviedb.org/3/"
+export const BASE_URL = "https://api.themoviedb.org/3"
 export const poster_url = "https://image.tmdb.org/t/p/w500/"
 export const profile_url = "https://media.themoviedb.org/t/p/w138_and_h175_face/"
 export const background_url = "https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces/"
@@ -7,7 +7,7 @@ const options = {
     method: 'GET',
     headers: {
         accept: 'application/json',
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_TOKEN}`
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_API_TOKEN} `
     }
 };
 
@@ -46,10 +46,10 @@ export type MediaCasts = {
     character: string;
 }
 
-export const getTrendingMedia = async (type: string, duration: string) => {
+export async function getTrendingMedia (type: string, duration: string) {
 
     try {
-        const response = await fetch(`${BASE_URL}trending/${type}/${duration}?language=en-US`, 
+        const response = await fetch(`${BASE_URL}/trending/${type}/${duration}?language=en-US`, 
             { 
                 ...options, 
                 next: { revalidate: 60 }, // revalidate every 60 seconds
@@ -61,13 +61,12 @@ export const getTrendingMedia = async (type: string, duration: string) => {
         return data.results;
 
     } catch (error) {
-        console.error("Trending TV's Error", error);
+        console.error("Trending Media Error", error);
         return []; 
     }
 }
 
-
-export async function searchMedia (query: string): Promise<{ results: Result[], pages: number }> {
+export async function searchMedia (query: string) {
 
     try {
         let page = 1;
@@ -77,7 +76,7 @@ export async function searchMedia (query: string): Promise<{ results: Result[], 
         let totalFilteredPages = 0;
 
         while (page <= maxFetchPages ) {
-            const response = await fetch(`${BASE_URL}search/multi?query=${query}&include_adult=false&language=en-US&page=${page}`, options);
+            const response = await fetch(`${BASE_URL}/search/multi?query=${query}&include_adult=false&language=en-US&page=${page}`, options);
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
             const data = await response.json();
@@ -103,7 +102,7 @@ export async function searchMedia (query: string): Promise<{ results: Result[], 
     }
 }
 
-export async function fetchMediaList (type: string, category : string): Promise<{ results: Result[], pages: number }> {
+export async function fetchMediaList (type: string, category : string) {
 
     try {
         let page = 1;
@@ -144,8 +143,8 @@ export async function fetchMediaList (type: string, category : string): Promise<
     }
 }
 
-export const getMediaDetails = async (type: string, id: string) : Promise<MediaDetails | null> => {
 
+export async function getMediaDetails (type: string, id: string) {
     try {
         const response = await fetch(`${BASE_URL}/${type}/${id}?language=en-US`, { 
             ...options, 
@@ -163,10 +162,9 @@ export const getMediaDetails = async (type: string, id: string) : Promise<MediaD
         console.error("Item Details Error:", error); 
         return null;
     }
-    
 }
 
-export const getMediaCasts = async (type: string, id: string) : Promise<MediaCasts[]> => {
+export async function getMediaCasts (type: string, id: string) {
 
     try {
         const response = await fetch(`${BASE_URL}/${type}/${id}/credits?language=en-US`, { 
@@ -183,8 +181,7 @@ export const getMediaCasts = async (type: string, id: string) : Promise<MediaCas
     } catch (error) {
         console.error("Item Details Error:", error); 
         return [];
-    }
-    
+    } 
 }
 
 

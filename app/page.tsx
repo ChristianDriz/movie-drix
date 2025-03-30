@@ -1,14 +1,13 @@
-import { HOME_SECTIONS, TIME_RANGES } from "./constants/constants";
+import { HOME_SECTIONS, TIME_RANGES } from "./_components/constants/constants";
 import { Suspense } from "react";
 import { getTrendingMedia, Result } from "@/lib/tmdb";
 
-import TrendingSectionSkeleton from "./components/home/TrendingSectionSkeleton";
-import TrendingSection from "./components/home/TrendingSection";
-import HeroCarouselSection from "./components/home/HeroCarouselSection";
-import HeroCarouselSkeleton from "./components/home/HeroCarouselSkeleton";
+import TrendingSectionSkeleton from "./_components/home/TrendingSectionSkeleton";
+import TrendingSection from "./_components/home/TrendingSection";
+import HeroCarouselSection from "./_components/home/HeroCarouselSection";
+import HeroCarouselSkeleton from "./_components/home/HeroCarouselSkeleton";
 
-export default function Home() {
-
+export default function Page() {
     return (
         <>  
             <Suspense fallback={<HeroCarouselSkeleton/>}>      
@@ -17,7 +16,7 @@ export default function Home() {
 
             {HOME_SECTIONS.map((section, index) => (     
                 <Suspense key={index} fallback={<TrendingSectionSkeleton/>}>      
-                    <HomeCarouselWrapper                     
+                    <TrendingSectionWrapper                     
                         type={section.type} 
                         title={section.title} 
                     />
@@ -33,9 +32,7 @@ type Props = {
 }
 
 async function HeroCarouselWrapper() {
-    
     const trendingMedias: Result[] = [];
-
     for (const section of HOME_SECTIONS) {
         const data = await getTrendingMedia(section.type, TIME_RANGES.DAY);
         trendingMedias.push(...data.slice(0, 5));
@@ -43,7 +40,7 @@ async function HeroCarouselWrapper() {
     return <HeroCarouselSection trendingMedias={trendingMedias} />;
 }
 
-async function HomeCarouselWrapper({ type, title } : Props ) {
+async function TrendingSectionWrapper({ type, title } : Props ) {
     try {
         const [day, week] = await Promise.all([
             getTrendingMedia(type, TIME_RANGES.DAY),
@@ -60,3 +57,4 @@ async function HomeCarouselWrapper({ type, title } : Props ) {
         console.error(error);
     }    
 }
+ 
