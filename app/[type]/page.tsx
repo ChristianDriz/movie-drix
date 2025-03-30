@@ -1,70 +1,48 @@
-import { notFound } from "next/navigation";
-import { searchMedia } from "@/lib/tmdb";
 import { Suspense } from "react";
 import { Metadata } from "next";
-import { MOVIE_CATEGORIES, TV_CATEGORIES } from "../constants/constants";
+import { MEDIA_TYPES } from "../_components/constants/constants";
 
-import MediaResultPage from "../components/media/results/MediaResultsPage";
-import MediaCategoryList from "../components/media/category/MediaCategoryList";
-import MediaSkeleton from "../components/media/common/MediaSkeleton";
-
+import MediaCategoryList from "../_components/media/category/MediaCategoryList";
+import MediaSkeleton from "../_components/media/common/MediaSkeleton";
+import { notFound } from "next/navigation";
 
 type Props = {
-    params: Promise<{ type: string }>;
-    searchParams: Promise<{ query: string, page?: number }>;
+    params: Promise<{ type: string }>
+};
+
+// Generate static paths for the media types (movie, tv)
+export async function generateStaticParams() {
+    return MEDIA_TYPES.map(({ name }) => ({ type: name }));
 }
 
-export default async function Page({ params, searchParams }: Props) {
-
+export default async function Page({ params }: Props) {
+    // Extract the type parameter from the route
     const { type } = await params;
-    const { query, page } = await searchParams; 
-    const currentPage  = page ? page : 1; 
+    
+    // Check if the type is a valid media type (movie or tv)
+    const isValidType = MEDIA_TYPES.find((media_type) => media_type.name === type)?.name;
+    const categories = MEDIA_TYPES.find((media_type) => media_type.name === type)?.categories;
+    
+    // Show a 404 page if the type is not valid
+    if (!isValidType) return notFound();
 
-    if (type === "search") { 
-        if (!query) return notFound();
-
-        const { results, pages } = await searchMedia(query);
-
-        const startIndex = (currentPage - 1) * 21;
-        const endIndex = startIndex + 21;
-        const paginatedResults = results.slice(startIndex, endIndex);
-        
-        return <MediaResultPage results={paginatedResults} totalPages={pages} query={query} currentPage={currentPage} type={type} />
-    }
-
-    if (type === "movie" || type === "tv") {
-        const categories = type === "movie" ? MOVIE_CATEGORIES : TV_CATEGORIES;
-        return (
-            <>
-            {categories.map((category) => (
+    return (
+        <>
+            {/* Render categories with suspense for loading fallback */}
+            {categories?.map((category) => (
                 <Suspense key={category} fallback={<MediaSkeleton />}>
-                    <MediaCategoryList type={type} category={category}/>
+                    <MediaCategoryList type={type} category={category} />
                 </Suspense>
             ))}
-            </>
-        )        
-    }
-
-    return notFound();
+        </>
+    );        
 }
 
-export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
-    const { type } = await params;
-    const { query } = await searchParams; 
-
-    if (type === "search") {
-        return {
-            title: `MovieDrix | Search - ${query || "Results"}`, 
-            description: `Search results for "${query || "your favorite movies and TV shows"}"`,
-        }
-    } 
-    
-    if (type === "movie" || type === "tv") {
-        return {
-            title: `MovieDrix | ${type.toUpperCase()} `, 
-            description: `Browse ${type === "movie" ? "Movie" : "TV"} categories on MovieDrix.`,
-        }
-    }
-
-    return { title: `MovieDrix`, description: `Explore Movies and TV shows on MovieDrix` }
+// Generate metadata dynamically based on the media type
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { type } = await params;    
+    return {
+        title: `MovieDrix | ${type.toUpperCase()} `, 
+        description: `Browse ${type === "movie" ? "Movie" : "TV"} categories on MovieDrix.`,
+    };
 }

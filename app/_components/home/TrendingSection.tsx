@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Result } from "@/lib/tmdb";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { useScroll } from "@/app/hooks/customHook";
-import { TIME_RANGES } from "@/app/constants/constants";
+import { useScroll } from "@/hooks/customHook";
+import { TIME_RANGES } from "@/app/_components/constants/constants";
 
 import MediaCard from "../media/common/MediaCard";
 

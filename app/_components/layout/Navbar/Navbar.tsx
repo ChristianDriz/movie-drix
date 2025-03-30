@@ -5,8 +5,8 @@ import Searchbar from "./Searchbar/Searchbar";
 import MobileNav from "./NavigationLinks/MobileNavLinks";
 import DesktopNav from "./NavigationLinks/DesktopNavLinks";
 
-import { useSearch, useNavbar } from "@/app/hooks/customHook";
-import { NAV_LINKS } from "@/app/constants/constants";
+import { useSearch, useNavbar } from "@/hooks/customHook";
+import { NAV_LINKS } from "@/app/_components/constants/constants";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
