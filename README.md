@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MovieDrix
 
-## Getting Started
+This is a movie or tv search website that allows the user to browse or search for latest movie and tv shows.
 
-First, run the development server:
+[Check out the website](https://movie-drix.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Purpose
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This website was created to:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Practice frontend development using Next.js and Tailwind CSS
+- Learn how to integrate APIs, particularly The Movie Database (TMDb) API
+- Build a responsive and user-friendly movie search platform
+- Improve my skills in data fetching, routing, and UI design
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Framework**: Next.js  
+- **Language**: TypeScript  
+- **Styling**: Tailwind CSS  
+- **API**: TMDb API  
+- **Design Tool**: Figma  
+- **Pagination**: React Paginate  
+- **Icons**: React Icons  
+- **Carousel**: Swiper  
+- **Deployment**: Vercel  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Homepage with trending movie and tv shows
+- Movie section that shows all movie categories
+- TV Shows section that shows all movie categories 
+- Searchbar that allows users to search for movies and tv shows
+- Mobile-friendly and responsive
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+> This project was created and designed by me for personal learning purposes only. It is not intended for commercial use.
